@@ -1,0 +1,14 @@
+{
+	"name" : "yakub/yxel",
+	"type" : "library",
+	"description" : "This class help read and create new csv/xlsx files. Optimized for simple but big spreadsheet.",
+	"license" : "Apache-2.0",
+	"require" : {
+		"php" : ">=5.3.0"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Yakub\\Yxel\\" : "src"
+		}
+	}
+}
