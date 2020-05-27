@@ -34,13 +34,13 @@ class Read extends \Yakub\Yxel\Main implements \Yakub\Yxel\iRead {
 		// Start loop for reading rows and call $callback function
 		$rowPosition = 0;
 		while (! feof($handle) && $row = fgetcsv($handle, 0, $delimiter)) {
-			$formatedRow = [];
+			$formattedRow = [];
 			$currentPosition = 'a';
 			foreach ($row as $column) {
-				$formatedRow[$currentPosition++] = $column;
+				$formattedRow[$currentPosition++] = $column;
 			}
 
-			if ($callback($formatedRow, $rowPosition++) === false) {
+			if ($callback($formattedRow, $rowPosition++) === false) {
 				break;
 			}
 		}

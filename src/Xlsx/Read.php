@@ -9,11 +9,9 @@ namespace Yakub\Yxel\Xlsx;
 class Read extends \Yakub\Yxel\Main implements \Yakub\Yxel\iRead {
 
 	protected function __construct($name) {
-		$this->file = $name;
+		if (is_null(static::$creatingDir)) { static::$creatingDir = sys_get_temp_dir(); }
 
-		if (is_null(static::$creatingDir)) {
-			static::$creatingDir = sys_get_temp_dir().'/';
-		}
+		$this->file = $name;
 	}
 
 	/**
@@ -22,7 +20,7 @@ class Read extends \Yakub\Yxel\Main implements \Yakub\Yxel\iRead {
 	 * @see \Yakub\Yxel\iRead::getRows()
 	 */
 	public function getRows($callback) {
-		$dir = static::$creatingDir.uniqid('import_');
+		$dir = static::$creatingDir.'/'.uniqid('import_');
 		exec('unzip -o '.$this->file.' -d '.$dir);
 		$dir.= '/';
 
