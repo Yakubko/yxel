@@ -76,8 +76,7 @@ class Write extends \Yakub\Yxel\Main implements \Yakub\Yxel\iWrite {
 					break;
 
 				default:
-					continue;
-					break;
+					continue 2;
 			}
 
 			$data.= '<c r="'.$position.'" s="'.$style.'" t="'.$type.'"><v>'.$value.'</v></c>';
