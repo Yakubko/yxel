@@ -61,14 +61,14 @@ final class MainTest extends TestCase {
     public function testCreateWriteCsv(): void {
         $this->assertInstanceOf(
             \Yakub\Yxel\Csv\Write::class,
-            Main::write('test', Main::CSV)
+            Main::write('test-write-csv', Main::CSV)
         );
     }
 
     public function testCreateWriteXlsx(): void {
         $this->assertInstanceOf(
             \Yakub\Yxel\Xlsx\Write::class,
-            Main::write('test-xlsx', Main::XLSX)
+            Main::write('test-write-xlsx', Main::XLSX)
         );
     }
 
