@@ -17,6 +17,15 @@ final class MainTest extends TestCase {
         self::$mainReflectionClass = new \ReflectionClass(Main::class);
     }
 
+    public function testMethodTemp(): void {
+        var_dump([sys_get_temp_dir(), is_writable(sys_get_temp_dir())]);
+
+        $this->assertEquals(
+            false,
+            false
+        );
+    }
+
     public function testMethodConstructorIsNotPublic(): void {
         $method = self::$mainReflectionClass->getConstructor();
 
