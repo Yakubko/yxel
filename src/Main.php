@@ -27,9 +27,9 @@ class Main {
 	 */
 	public static function write($fileName = null, $type = self::CSV) {
 		$ret = null;
-		$name = static::sanitizeFileName($fileName);
+		$name = is_null($fileName) ? null : static::sanitizeFileName($fileName);
 
-		if (! empty($name)) {
+		if (is_null($name) || ! empty($name)) {
 			switch ($type) {
 				case self::CSV:
 				    $ret = new \Yakub\Yxel\Csv\Write($name);
