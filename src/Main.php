@@ -99,6 +99,7 @@ class Main {
 	 * @param string $dir			- Path to dir to delete
 	 */
 	protected function rrmdir($dir) {
+		// TODO: overenie ze sa moze mazat len to co je za static::$creatingDir
 		if (is_dir($dir)) {
 			$objects = scandir($dir);
 			foreach ($objects as $object) {

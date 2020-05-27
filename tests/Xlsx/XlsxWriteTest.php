@@ -5,7 +5,7 @@ use \Yakub\Yxel\Main;
 final class XlsxWriteTest extends TestCase {
 
     public function testWriteXlsxFile(): void {
-        $file = Main::write();
+        $file = Main::write(null, Main::XLSX);
 
         $writeData = [
             ['a' => 'a', 'b' => 'b', 'c' => '1', 'd' => 1.5],
@@ -32,7 +32,7 @@ final class XlsxWriteTest extends TestCase {
 
     public function testWriteReopenAndUseSettingsXlsxFile(): void {
         $fileName = uniqid('file_write_');
-        $file = Main::write($fileName);
+        $file = Main::write($fileName, Main::XLSX);
 
         $writeData = [
             ['a' => 'a', 'b' => 'b', 'c' => '1', 'd' => 1.5],
@@ -44,7 +44,7 @@ final class XlsxWriteTest extends TestCase {
         unset($file);
 
         // Reopen file
-        $file = Main::write($fileName);
+        $file = Main::write($fileName, Main::XLSX);
         $file->addRow($writeData[1]);
         $file->close();
 
@@ -56,7 +56,7 @@ final class XlsxWriteTest extends TestCase {
         });
 
         $this->assertEquals('hi', $file->settings('tmpData'));
-        $this->assertEquals(['tmpData' => 'hi'], $file->settings());
+        $this->assertEquals(['tmpData' => 'hi', 'stringCount' => 4, 'dimension' => [0 => ['A', 1], 1 => ['D', 2]]], $file->settings());
         $this->assertEquals($writeData, $rows);
     }
 }
