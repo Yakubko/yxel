@@ -59,4 +59,35 @@ final class XlsxWriteTest extends TestCase {
         $this->assertEquals(['tmpData' => 'hi', 'stringCount' => 4, 'dimension' => [0 => ['A', 1], 1 => ['D', 2]]], $file->settings());
         $this->assertEquals($writeData, $rows);
     }
+
+
+
+    public function testWriteXlsxFileWithEmptyCells(): void {
+        $file = Main::write(null, Main::XLSX);
+
+        $writeData = [
+            ['a' => 'a', 'b' => '', 'c' => 'Hi John, '.PHP_EOL.'have a nice day. :)', 'd' => 1.5],
+            ['a' => new stdClass(), 'b' => 1, 'c' => '', 'd' => 185]
+        ];
+        foreach ($writeData as $row) {
+            $file->addRow($row);
+        }
+
+        $file->close();
+
+        $readFile = Main::read($file->getFilePath());
+
+        $rows = [];
+        $readFile->getRows(function ($rowData) use (& $rows) {
+            $rows[] = $rowData;
+        });
+
+        $this->assertEquals(
+            [
+                ['a' => 'a', 'b' => '', 'c' => 'Hi John, '.PHP_EOL.'have a nice day. :)', 'd' => 1.5],
+                ['a' => '', 'b' => 1, 'c' => '', 'd' => 185]
+            ],
+            $rows
+        );
+    }
 }
