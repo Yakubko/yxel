@@ -2,12 +2,13 @@ language: php
 php:
     - 7.3
 
+env:
+    global:
+        - TMPDIR=/tmp
+
 install:
     - curl -s http://getcomposer.org/installer | php
     - php composer.phar install --no-interaction
-
-before_install:
-    - chmod +x tests/MainTest.php
 
 # Testing the app (see phpunit.xml) for configs, generating Code Coverage report
 script:
