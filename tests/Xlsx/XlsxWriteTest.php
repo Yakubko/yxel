@@ -2,9 +2,9 @@
 use PHPUnit\Framework\TestCase;
 use \Yakub\Yxel\Main;
 
-final class CsvWriteTest extends TestCase {
+final class XlsxWriteTest extends TestCase {
 
-    public function testWriteCsvFile(): void {
+    public function testWriteXlsxFile(): void {
         $file = Main::write();
 
         $writeData = [
@@ -30,7 +30,7 @@ final class CsvWriteTest extends TestCase {
         );
     }
 
-    public function testWriteReopenAndUseSettingsCsvFile(): void {
+    public function testWriteReopenAndUseSettingsXlsxFile(): void {
         $fileName = uniqid('file_write_');
         $file = Main::write($fileName);
 

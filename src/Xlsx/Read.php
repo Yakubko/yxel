@@ -55,7 +55,7 @@ class Read extends \Yakub\Yxel\Main implements \Yakub\Yxel\iRead {
 					$add = '';
 					$position = strtolower(preg_replace('/[0-9]/', '', (string) $column->attributes()['r']));
 
-					$value = (int) $column->v;
+					$value = (float) $column->v;
 					if ($column->v){
 						switch ((string) $column->attributes()['t']) {
 							case 's':
