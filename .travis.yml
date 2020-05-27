@@ -6,9 +6,6 @@ install:
     - curl -s http://getcomposer.org/installer | php
     - php composer.phar install --no-interaction
 
-before_install:
-    - chmod +x src/Main.php
-
 # Testing the app (see phpunit.xml) for configs, generating Code Coverage report
 script:
     - mkdir -p build/logs
