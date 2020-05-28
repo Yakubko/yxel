@@ -41,4 +41,48 @@ final class XlsxReadTest extends TestCase {
             $rows
         );
     }
+
+    public function testReadEmptyXlsxFile(): void {
+        $file = Main::write(null, Main::XLSX);
+        $file->addRow(['']);
+        $file->close();
+
+        $readFile = Main::read($file->getFilePath());
+
+        $rows = [];
+        $readFile->getRows(function ($rowData) use (& $rows) {
+            $rows[] = $rowData;
+        });
+
+        $this->assertEquals(
+            [],
+            $rows
+        );
+    }
+
+    public function testReadBigXlsxFile(): void {
+        $file = Main::write(null, Main::XLSX);
+        $write = $row = [];
+        $z = 'a'; $randomData = ['banana', 'test', '2020-12-05 12:12:12', 1, 243.4, rand(1, 500)];
+        for ($i = 0; $i < 400; $i++) {
+            $row[$z++] = $randomData[array_rand($randomData, 1)];
+        }
+        for ($i = 0; $i < 1000; $i++) {
+            $write[$i] = $row;
+            $file->addRow($row);
+        }
+
+        $file->close();
+        $readFile = Main::read($file->getFilePath());
+
+        $rows = [];
+        $readFile->getRows(function ($rowData) use (& $rows) {
+            $rows[] = $rowData;
+        });
+
+        $this->assertEquals(
+            $write,
+            $rows
+        );
+    }
 }

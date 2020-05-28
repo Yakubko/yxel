@@ -97,10 +97,6 @@ class Read extends \Yakub\Yxel\Main implements \Yakub\Yxel\iRead {
 					// Skip empty cells
 					while ($currPosition != $position) {
 						$row[$currPosition++] = '';
-						if (! preg_match("/^[a-z]+$/", $position)) {
-							// var_dump('som tu');
-							break;
-						}
 					}
 					$row[$currPosition++] = $add;
 				}
