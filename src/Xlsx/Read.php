@@ -2,18 +2,16 @@
 namespace Yakub\Yxel\Xlsx;
 
 /**
- * Class for reading xslx file
+ * Class for reading xlsx file
  *
  * @author yakub
  */
 class Read extends \Yakub\Yxel\Main implements \Yakub\Yxel\iRead {
 
 	protected function __construct($name) {
-		$this->file = $name;
+		if (is_null(static::$creatingDir)) { static::$creatingDir = sys_get_temp_dir(); }
 
-		if (is_null(static::$creatingDir)) {
-			static::$creatingDir = sys_get_temp_dir().'/';
-		}
+		$this->file = $name;
 	}
 
 	/**
@@ -22,7 +20,7 @@ class Read extends \Yakub\Yxel\Main implements \Yakub\Yxel\iRead {
 	 * @see \Yakub\Yxel\iRead::getRows()
 	 */
 	public function getRows($callback) {
-		$dir = static::$creatingDir.uniqid('import_');
+		$dir = static::$creatingDir.'/'.uniqid('import_');
 		exec('unzip -o '.$this->file.' -d '.$dir);
 		$dir.= '/';
 
@@ -55,8 +53,9 @@ class Read extends \Yakub\Yxel\Main implements \Yakub\Yxel\iRead {
 					$add = '';
 					$position = strtolower(preg_replace('/[0-9]/', '', (string) $column->attributes()['r']));
 
-					$value = (int) $column->v;
-					if ($column->v){
+					$add = '';
+					if ($column->v) {
+						$value = ((int) $column->v == (string) $column->v) ? (int) $column->v : (float) $column->v;
 						switch ((string) $column->attributes()['t']) {
 							case 's':
 								$add = $sharedStrings[$value];
@@ -64,49 +63,40 @@ class Read extends \Yakub\Yxel\Main implements \Yakub\Yxel\iRead {
 
 							case 'n':
 								if (($s = (string) $column->attributes()['s']) && ! empty($value)) {
-									// Detect xslx date format
-									switch ($numberFormats[$s-1]['id']) {
-										case '165':
-											$time = explode('.', $value);
-											$date = reset($time)-2;
+									// Is date or date time
+									if (preg_match('/^(\[\$[[:alpha:]]*-[0-9A-F]*\])*[hmsdy]/i', $numberFormats[$s]['format'])) {
+										$time = explode('.', $value);
+										$date = reset($time)-2;
 
-											$diffDate = new \DateTime('1900-01-01');
-											$diffDate->add(new \DateInterval('P'.$date.'D'));
+										$diffDate = new \DateTime('1900-01-01');
+										$diffDate->add(new \DateInterval('P'.$date.'D'));
+
+										// Only date
+										if (is_int($value)) {
 											$add = $diffDate->format('Y-m-d');
-											break;
-
-										case '166':
-											$time = explode('.', $value);
-											$date = reset($time)-2;
-
-											$diffDate = new \DateTime('1900-01-01');
-											$diffDate->add(new \DateInterval('P'.$date.'D'));
+										}
+										// Is full date time
+										else if (is_float($value)) {
 											$add = $diffDate->format('Y-m-d').gmdate(' H:i:s', floor(floatval('0.'.end($time)) * 86400));
-											break;
-
-										default:
-											$add = $value;
-											break;
+										}
+									} else {
+										$add = $value;
 									}
 								} else {
 									$add = $value;
 								}
-								break;
-
-							default:
-								$add = $value;
-								break;
+							break;
 						}
-					}else{
-						$add = "";
+					}
+
+					// If columns are merged
+					else {
+						$add = '';
 					}
 
 					// Skip empty cells
 					while ($currPosition != $position) {
 						$row[$currPosition++] = '';
-						if (! preg_match("/^[a-z]+$/", $position)) {
-							break;
-						}
 					}
 					$row[$currPosition++] = $add;
 				}

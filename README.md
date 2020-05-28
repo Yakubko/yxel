@@ -2,17 +2,24 @@
 
 > This class help read and create new csv/xlsx files. Optimized for simple but big spreadsheet.
 
-- [Install](#install)
-- [Settings](#settings)
-- [CSV](#csv)
-  * [Read](#read-csv-file)
-  * [Create](#create-csv-file)
-- [XLSX](#xlsx)
-  * [Read](#read-xlsx-file)
-  * [Create](#create-xlsx-file)
-- [Batch usage](#batch-usage)
-  
-    
+**Build status**
+
+master: [![Build Status](https://travis-ci.com/Yakubko/yxel.svg?branch=master)](https://travis-ci.com/Yakubko/yxel)
+[![Coverage Status](https://coveralls.io/repos/github/Yakubko/yxel/badge.svg?branch=master)](https://coveralls.io/github/Yakubko/yxel?branch=master)
+
+dev: [![Build Status](https://travis-ci.com/Yakubko/yxel.svg?branch=dev)](https://travis-ci.com/Yakubko/yxel)
+[![Coverage Status](https://coveralls.io/repos/github/Yakubko/yxel/badge.svg?branch=dev)](https://coveralls.io/github/Yakubko/yxel?branch=dev)
+
+-   [Install](#install)
+-   [Settings](#settings)
+-   [CSV](#csv)
+    -   [Read](#read-csv-file)
+    -   [Create](#create-csv-file)
+-   [XLSX](#xlsx)
+    -   [Read](#read-xlsx-file)
+    -   [Create](#create-xlsx-file)
+-   [Batch usage](#batch-usage)
+
 ## Install
 
 The recommended way to install is via Composer:
@@ -103,7 +110,7 @@ $write->save();
 In other process just open existing file
 
 ```php
-// Name of file must be same 
+// Name of file must be same
 $write = \Yakub\Yxel\Main::write('yxel_test', \Yakub\Yxel\Main::CSV);
 
 // Add new row to previous in this file
@@ -115,7 +122,7 @@ $write->close();
 
 To cominication between processes can use storage for custom data
 
-```php 
+```php
 $write = \Yakub\Yxel\Main::write('yxel_test', \Yakub\Yxel\Main::CSV);
 
 $write->addRow(['A1', 'B1', '']);

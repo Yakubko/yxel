@@ -13,12 +13,9 @@ class Write extends \Yakub\Yxel\Main implements \Yakub\Yxel\iWrite {
 	private $settings = [];
 
 	protected function __construct($name = null) {
-		$this->file = $name?: uniqid('file_write_');
-		if (is_null(static::$creatingDir)) {
-			static::$creatingDir = sys_get_temp_dir().'/';
-		}
-		$this->dir = static::$creatingDir.$this->file;
-
+		if (is_null(static::$creatingDir)) { static::$creatingDir = sys_get_temp_dir(); }
+		$this->file = $name ?: uniqid('file_write_');
+		$this->dir = static::$creatingDir.'/'.$this->file;
 
 		// Create/Load settings
 		if (! file_exists($this->dir)) {
