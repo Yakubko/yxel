@@ -26,12 +26,15 @@ class Read extends \Yakub\Yxel\Main implements \Yakub\Yxel\iRead {
 
 		// Create cells vocabulary
 		$i = 0;
-		$xml = simplexml_load_file($dir.'xl/sharedStrings.xml');
-		$sharedStrings = new \SplFixedArray((int) $xml->attributes()['uniqueCount']);
-		foreach ($xml->si as $node) {
-			$sharedStrings[$i++] = (string) $node->t;
+		$sharedStrings = new \SplFixedArray(0);
+		if (is_file($dir.'xl/sharedStrings.xml')) {
+			$xml = simplexml_load_file($dir.'xl/sharedStrings.xml');
+			$sharedStrings->setSize((int) $xml->attributes()['uniqueCount']);
+			foreach ($xml->si as $node) {
+				$sharedStrings[$i++] = (string) $node->t;
+			}
+			unset($xml);
 		}
-		unset($xml);
 
 		// Get number format style
 		$numberFormats = [];
